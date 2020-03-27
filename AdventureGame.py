@@ -1,17 +1,16 @@
-import time, sys, pygame, random
+import time, sys, pygame, random, os
 from pygame import mixer
+
 
 
 # Variables
 health = 100
 careerP = 1
-
- 
+FlexyPath = os.getcwd()
 # Music/Sound Effects
 mixer.init()
-
-alarm = pygame.mixer.Sound("/Users/finn.jones/Documents/AdventureGame/The-Life-of-Dave-From-Xerox/Alarm.wav")
-music = pygame.mixer.music.load("/Users/finn.jones/Documents/AdventureGame/The-Life-of-Dave-From-Xerox/ThemeSong.wav")
+alarm = pygame.mixer.Sound(FlexyPath+ "/Documents/GitHub/The-Life-of-Dave-From-Xerox/Alarm.wav")
+music = pygame.mixer.music.load(FlexyPath + "/Documents/GitHub/The-Life-of-Dave-From-Xerox/ThemeSong.wav")
 
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
