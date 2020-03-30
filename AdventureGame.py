@@ -43,8 +43,6 @@ def CareerUpdate(career):
         GameOver()
         exit()
 
-
-
 def YouDied():
     for letter in (u"\u001b[31mYou Died\u001b[0m"):
         sys.stdout.write(letter)
@@ -144,13 +142,20 @@ def phase1():
                 CareerUpdate(-1)
             elif ans == "leave":
                 GameText(u"\u001b[32mYou skip breakfast and go straight to work you just make it on time.\u001b[0m")
+                GameText(u"\u001b[32mYou grab your mop and start cleaning\u001b[0m")
+                GameText(u"\u001b[32mYou finish your work at 5:00 and you go home and flop onto your bed.\u001b[0m")
+                phase1()
         else:
             GameText(u"\u001b[32mYou are on schedule should you eat (Breakfast) or (Leave) without\u001b[0m")
             ans = input("")
             ans = ans.lower()
             if ans == "breakfast":
                 GameText(u"\u001b[32mYou eat breakfast and gain 20 health and you get to work on time\u001b[0m")
+                healthUpdate(20)
                 GameText(u"\u001b[32mYour health is now "+  str(health)+ " HP\u001b[0m")
+                GameText(u"\u001b[32mYou grab your mop and start cleaning\u001b[0m")
+                GameText(u"\u001b[32mYou finish your work at 5:30 and you go home and flop onto your bed.\u001b[0m")
+                phase1()
             elif ans == "leave":
                 GameText(u"\u001b[32mYou skip breakfast and go straight to work you are early by 10 minutes this makes a good impression on your boss and you he says\u001b[0m")
                 GameText(u"\u001b[32mI like to see a deticated worker, have you ever done printer matnence before?\u001b[0m")
@@ -158,9 +163,14 @@ def phase1():
                 GameText(u"\u001b[32m'Then it's settled you are now part of the printer matnence crew.'\u001b[0m")
                 CareerUpdate(1)
                 GameText(u"\u001b[32mYou gain a career point you now have "+  str(careerP) + " points\u001b[0m")
+                phase2()
 
 
 def phase2():
+    phaseCount = 2
+    GameText(u"\u001b[32mYou wake up and check the time your watch reads "+ str(rand) +":00\u001b[0m")
+    
+
     print("phase 2")
 # rand = random.randrange(6, 8,)
 # print(rand)
