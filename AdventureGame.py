@@ -71,7 +71,8 @@ def get_hit(att, ac):
     else:
         return False
 
-def Printerbattle(copyTime, ChalengerSpeed):
+def Printerbattle(copyTime, ChallengerSpeed, ChallengerName):
+
     copyCount = 0
     loopa = 1
     start = time.time()
@@ -81,23 +82,26 @@ def Printerbattle(copyTime, ChalengerSpeed):
         if update - start < copyTime:
             print(u"\u001b[32mTime Elapsed: "+ str("%.2f" %(time.time() - start)) +"\u001b[0m")
             typeTimeS = time.time()
-            copySpeed = input("")
-            copySpeed = copySpeed.lower()
-            if copySpeed != 'copy':
+            copy = input("")
+            copy = copy.lower()
+            L = ChallengerSpeed - 1
+            H = ChallengerSpeed + 1
+            randCSpeed = random.uniform(L, H)
+            if copy != 'copy':
                 GameText(u"\u001b[32mPaper Jam\u001b[0m")
                 loading()
                 print("")
             else:
                 copyCount = copyCount + 1
                 typeTimeE = time.time()
-                
+                print(u"\u001b[32mChallenger Speed: "+ str("%.2f" % randCSpeed) +"\u001b[0m")
                 print(u"\u001b[32mSpeed: "+ str("%.2f" %(typeTimeE - typeTimeS)) +"\u001b[0m")
                 clear()
         else:
             loopa = 0
 
     print(time.time() - start)
-    
+    GameText(u"\u001b[35mYou Made "+ str(copyCount) +" Copies\u001b[0m")
 
 
 def shop():
@@ -108,7 +112,7 @@ def shop():
         GameText(u"\u001b[35mShop\u001b[0m")
         GameText(u"\u001b[33m1. Rewind 50HP\u001b[0m")
         GameText(u"\u001b[24m2. Wrench 50HP\u001b[0m")
-        GameText(u"\u001b[36;1m3. Skip Fase 1 99HP\u001b[0;0m")
+        GameText(u"\u001b[36;1m3. Skip faze 1 99HP\u001b[0;0m")
         GameText(u"\u001b[35m1, 2, 3 or exit:")
         buy = input("\u001b[0m")
 
@@ -119,7 +123,7 @@ def shop():
             GameText(u"\u001b[35mYou Now Have Wrench\u001b[0m")
             loopS = 2
         elif buy == "3":
-            GameText(u"\u001b[35mSkip Fase 1\u001b[0m")
+            GameText(u"\u001b[35mSkip faze 1\u001b[0m")
             loopS = 2
         elif buy == "4":
             print("not yet implemented")
@@ -138,7 +142,7 @@ def H2P():
     GameText(u"\u001b[32mYou Start with 100HP and 10 Life Points\u001b[0m")
     GameText(u"\u001b[32mTo check these stats just type stats\u001b[0m")
     GameText(u"\u001b[32mThis game is about a guy who is down on his luck and is trying to get through life\u001b[0m")
-    GameText(u"\u001b[32mThe aim of the game is to make your way from Janitor to Ceo at Xerox by acumulating career points without letting your HP get to 0\u001b[0m")
+    GameText(u"\u001b[32mThe aim of the game is to make your way from Janitor to Ceo at Xerox by accumulating career points without letting your HP get to 0\u001b[0m")
     GameText(u"\u001b[32mPress Enter To Start\u001b[0m")
     input("")
     phase1()
@@ -155,7 +159,7 @@ def phase1():
     ans = ans.lower()
     clear()
     if ans == "punch":
-        GameText(u"\u001b[32mYou get electricuted\u001b[0m")
+        GameText(u"\u001b[32mYou get electrocuted\u001b[0m")
         healthUpdate(-50)
         GameText(u"\u001b[32mYour health is now "+  str(health)+ " HP\u001b[0m")
         clear()
@@ -179,7 +183,7 @@ def phase1():
                 GameText(u"\u001b[32mYou eat breakfast and gain 20 health but you are now running 20 minutes late\u001b[0m")
                 healthUpdate(20)
                 GameText(u"\u001b[32mWhen you get to work you look at the time you are 40 minutes late\u001b[0m")
-                GameText(u"\u001b[32mYour boss waliks up to you and says 'I have never seen a more idotic indifferent worker in my life you are FIRED'\u001b[0m")
+                GameText(u"\u001b[32mYour boss walks up to you and says 'I have never seen a more idiotic indifferent worker in my life you are FIRED'\u001b[0m")
                 CareerUpdate(-1)
             elif ans == "leave":
                 GameText(u"\u001b[32mYou skip breakfast and go straight to work you just make it on time.\u001b[0m")
@@ -199,7 +203,7 @@ def phase1():
                 phase1()
             elif ans == "leave":
                 GameText(u"\u001b[32mYou skip breakfast and go straight to work you are early by 10 minutes this makes a good impression on your boss and you he says\u001b[0m")
-                GameText(u"\u001b[32mI like to see a deticated worker, have you ever done printer matnence before?\u001b[0m")
+                GameText(u"\u001b[32mI like to see a dedicated worker, have you ever done printer matnence before?\u001b[0m")
                 GameText(u"\u001b[32mYou respond with 'I am fairly handy and printers can't be too hard'\u001b[0m")
                 GameText(u"\u001b[32m'Then it's settled you are now part of the printer matnence crew.'\u001b[0m")
                 CareerUpdate(1)
@@ -229,7 +233,9 @@ def phase2():
 # rand = random.randrange(6, 8,)
 # print(rand)
 # shop()
-Printerbattle(20, 1)
+# Printerbattle(10, 1, "Jeb")
+print(JohnVisentin)
 
 # H2P()
+
 
