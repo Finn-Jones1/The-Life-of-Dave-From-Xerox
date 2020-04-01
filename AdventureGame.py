@@ -58,6 +58,10 @@ def GameText(text):
         time.sleep(rand)
     print("")
 
+def clear():
+    time.sleep(0.5)
+    os.system('clear')
+
 
 
 def shop():
@@ -104,25 +108,26 @@ def H2P():
     phase1()
     
 
-# def phaze1():
-    # alarm.play()
-    # GameText(u"\u001b[32mYou wake up to the sound you have grown to hate\u001b[0m")
-    # GameText(u"\u001b[32mThe alarm clock\u001b[0m")
 def phase1():
+    alarm.play()
+    GameText(u"\u001b[32mYou wake up to the sound you have grown to hate\u001b[0m")
+    GameText(u"\u001b[32mThe alarm clock\u001b[0m")
+    clear()
     phaseCount = 1
     GameText(u"\u001b[32mDo you (Punch) the alarm clock or do you (Wake) up:\u001b[0m")
     ans = input()
     ans = ans.lower()
-
+    clear()
     if ans == "punch":
         GameText(u"\u001b[32mYou get electricuted\u001b[0m")
         healthUpdate(-50)
         GameText(u"\u001b[32mYour health is now "+  str(health)+ " HP\u001b[0m")
+        clear()
         GameText(u"\u001b[32mYou say 'Screw This!' and you go back to bed\u001b[0m")
         GameText(u"\u001b[32mYou wake up to the sound of your phone ringing\u001b[0m")
         GameText(u"\u001b[32mYou pick up the phone it's your boss it's your fourth time you have forgotten to come into work your boss says...\u001b[0m")
         GameText(u"\u001b[32mDAVE YOU ARE SUCH AN IDOT DON'T COME INTO XEROX EVER AGAIN\u001b[0m")
-        GameText(u"\u001b[32mThen suddenly you feel a strong pain coming from your chest.\u001b[0m")
+        GameText(u"\u001b[32mThen suddenly you feel a strong pain coming from your chest the electricity has caused your heart beat to become irregular.\u001b[0m")
         GameText(u"\u001b[32mYour bosses sudden yelling has caused you to go into cardiac arrest\u001b[0m")
         GameText(u"\u001b[32mThen suddenly your heart stops.\u001b[0m")
         print("")
@@ -168,7 +173,9 @@ def phase1():
 
 def phase2():
     phaseCount = 2
-    GameText(u"\u001b[32mYou wake up and check the time your watch reads "+ str(rand) +":00\u001b[0m")
+    GameText(u"\u001b[32mYour spirits are high and you are happy\u001b[0m")
+    GameText(u"\u001b[32mYour boss leads you to the printer matnence door and says 'I will leave you here the guys inside will tell you what you need to do.'\u001b[0m")
+    GameText(u"\u001b[32mYou have a choice to (lumber up) before opening the door or you can just (open) the door\u001b[0m")
     
 
     print("phase 2")
