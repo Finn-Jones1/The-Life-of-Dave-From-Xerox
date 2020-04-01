@@ -28,7 +28,7 @@ def GameOver():
 def loading():
     print ("Loading...")
     for i in range(0, 100):
-        time.sleep(0.1)
+        time.sleep(0.05)
         sys.stdout.write(u"\u001b[1000D" + str(i + 1) + "%")
         sys.stdout.flush()
     
@@ -62,6 +62,42 @@ def clear():
     time.sleep(0.5)
     os.system('clear')
 
+def get_hit(att, ac):
+
+    attack = random.randint(1, 20) + att
+
+    if attack > ac:
+        return True
+    else:
+        return False
+
+def Printerbattle(copyTime, ChalengerSpeed):
+    copyCount = 0
+    loopa = 1
+    start = time.time()
+    while loopa == 1:
+        
+        update = time.time()
+        if update - start < copyTime:
+            print(u"\u001b[32mTime Elapsed: "+ str("%.2f" %(time.time() - start)) +"\u001b[0m")
+            typeTimeS = time.time()
+            copySpeed = input("")
+            copySpeed = copySpeed.lower()
+            if copySpeed != 'copy':
+                GameText(u"\u001b[32mPaper Jam\u001b[0m")
+                loading()
+                print("")
+            else:
+                copyCount = copyCount + 1
+                typeTimeE = time.time()
+                
+                print(u"\u001b[32mSpeed: "+ str("%.2f" %(typeTimeE - typeTimeS)) +"\u001b[0m")
+                clear()
+        else:
+            loopa = 0
+
+    print(time.time() - start)
+    
 
 
 def shop():
@@ -176,14 +212,24 @@ def phase2():
     GameText(u"\u001b[32mYour spirits are high and you are happy\u001b[0m")
     GameText(u"\u001b[32mYour boss leads you to the printer matnence door and says 'I will leave you here the guys inside will tell you what you need to do.'\u001b[0m")
     GameText(u"\u001b[32mYou have a choice to (lumber up) before opening the door or you can just (open) the door\u001b[0m")
+    ans = input("")
+    ans = ans.lower()
+    if ans == "lumber up":
+        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of matnence sits as you walk everyone is stareing at at you the new guy.\u001b[0m")
+        GameText(u"\u001b[32mThe your boss says \u001b[0m")
+    elif ans == "open":
+        if health < 70:
+            healthUpdate(-50)
+            GameText(u"\u001b[32mYou decided to wear thongs to work today and there was a lip on the door frame that you stub your toe on. Your health is now"+ str(health) +"\u001b[0m")
+
+        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of matnence sits as you walk everyone is stareing at at you the new guy.\u001b[0m")
     
 
     print("phase 2")
 # rand = random.randrange(6, 8,)
 # print(rand)
 # shop()
-phase1()
-
+Printerbattle(20, 1)
 
 # H2P()
 
