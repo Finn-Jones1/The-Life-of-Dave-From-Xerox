@@ -7,11 +7,11 @@ from pygame import mixer
 phaseCount = 0
 health = 100
 careerP = 1
-FlexyPath = os.getcwd()
+FlexyPath = os.path.dirname(os.path.abspath(__file__))
 # Music/Sound Effects
 mixer.init()
-alarm = pygame.mixer.Sound(FlexyPath+ "/Documents/GitHub/The-Life-of-Dave-From-Xerox/Alarm.wav")
-music = pygame.mixer.music.load(FlexyPath + "/Documents/GitHub/The-Life-of-Dave-From-Xerox/ThemeSong.wav")
+alarm = pygame.mixer.Sound(FlexyPath+ "/Alarm.wav")
+music = pygame.mixer.music.load(FlexyPath + "/ThemeSong.wav")
 
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
@@ -94,7 +94,7 @@ def Printerbattle(copyTime, ChallengerSpeed, ChallengerName):
             else:
                 copyCount = copyCount + 1
                 typeTimeE = time.time()
-                print(u"\u001b[32mChallenger Speed: "+ str("%.2f" % randCSpeed) +"\u001b[0m")
+                print(u"\u001b[32mChallenger Speed: "+ str(randCSpeed) +"\u001b[0m")
                 print(u"\u001b[32mSpeed: "+ str("%.2f" %(typeTimeE - typeTimeS)) +"\u001b[0m")
                 clear()
         else:
@@ -233,8 +233,7 @@ def phase2():
 # rand = random.randrange(6, 8,)
 # print(rand)
 # shop()
-# Printerbattle(10, 1, "Jeb")
-print(JohnVisentin)
+phase1()
 
 # H2P()
 
