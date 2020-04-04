@@ -9,12 +9,20 @@ health = 100
 careerP = 1
 FlexyPath = os.path.dirname(os.path.abspath(__file__))
 # Music/Sound Effects
+
 mixer.init()
+
+
 alarm = pygame.mixer.Sound(FlexyPath+ "/Alarm.wav")
 music = pygame.mixer.music.load(FlexyPath + "/ThemeSong.wav")
 
-pygame.mixer.music.set_volume(0.3)
-pygame.mixer.music.play(-1)
+musicBattle = pygame.mixer.Sound(FlexyPath + "/Battle.wav")
+musicBossBattle = pygame.mixer.Sound(FlexyPath + "/FinalBossFight.wav")
+
+musicBossBattle.play(-1)
+
+# pygame.mixer.music.set_volume(0.3)
+# pygame.mixer.music.play(-1)
 
 
 #Functions
@@ -71,11 +79,27 @@ def get_hit(att, ac):
     else:
         return False
 
-def Printerbattle(copyTime, ChallengerSpeed, ChallengerName):
+def chalengerPBattle(ChallengerSpeed, copyTime):
+    global ls
+    ls = []
+    loopPB = 1
+    randCSpeed1 = 0
+    while loopPB == 1:
+        L = ChallengerSpeed - 1
+        H = ChallengerSpeed + 1
+        randCSpeed = random.uniform(L, H)
+        randCSpeed1 = randCSpeed1 + randCSpeed
+        ls.append(randCSpeed)
+        if randCSpeed1 > copyTime:
+            loopPB = 0
+    print(ls)
+
+def Printerbattle(copyTime, ChallengerName, ChallengerSpeed):
 
     copyCount = 0
     loopa = 1
     start = time.time()
+    chalengerPBattle(ChallengerSpeed, copyTime)
     while loopa == 1:
         
         update = time.time()
@@ -84,24 +108,46 @@ def Printerbattle(copyTime, ChallengerSpeed, ChallengerName):
             typeTimeS = time.time()
             copy = input("")
             copy = copy.lower()
-            L = ChallengerSpeed - 1
-            H = ChallengerSpeed + 1
-            randCSpeed = random.uniform(L, H)
+
             if copy != 'copy':
                 GameText(u"\u001b[32mPaper Jam\u001b[0m")
                 loading()
                 print("")
+                clear()
             else:
                 copyCount = copyCount + 1
                 typeTimeE = time.time()
-                print(u"\u001b[32mChallenger Speed: "+ str(randCSpeed) +"\u001b[0m")
+                
                 print(u"\u001b[32mSpeed: "+ str("%.2f" %(typeTimeE - typeTimeS)) +"\u001b[0m")
                 clear()
         else:
             loopa = 0
 
+
     print(time.time() - start)
+    lenLS = 0
+    lenLS = len(ls)
+
+    if len(ls) == copyCount:
+        ran = random.randint(2, 5)
+        print(ran)
+        if ran == 3:
+            lenLS = lenLS - 1
+        elif ran == 4:
+            lenLS += 1
+
+    
+    time.sleep(3)
+    print("")
+    GameText(u"\u001b[35mThe Scores Are In\u001b[0m")
+    GameText(u"\u001b[35m" + ChallengerName +" Made "+ str(lenLS) +" Copies\u001b[0m")
     GameText(u"\u001b[35mYou Made "+ str(copyCount) +" Copies\u001b[0m")
+    if lenLS > copyCount:
+        GameText(u"\u001b[33m" + ChallengerName + " Wins\u001b[0m")
+    if lenLS < copyCount:
+        GameText(u"\u001b[33mYou Win\u001b[0m")
+
+
 
 
 def shop():
@@ -233,8 +279,8 @@ def phase2():
 # rand = random.randrange(6, 8,)
 # print(rand)
 # shop()
-phase1()
-
+# phase1()
+Printerbattle(10, "asd", 3)
 # H2P()
 
 
