@@ -1,7 +1,7 @@
 import time, sys, pygame, random, os
 from pygame import mixer
 
-
+powerUP = 0
 
 # Variables
 phaseCount = 0
@@ -19,15 +19,29 @@ music = pygame.mixer.music.load(FlexyPath + "/ThemeSong.wav")
 musicBattle = pygame.mixer.Sound(FlexyPath + "/Battle.wav")
 musicBossBattle = pygame.mixer.Sound(FlexyPath + "/FinalBossFight.wav")
 
-musicBossBattle.play(-1)
+# musicBossBattle.play(-1)
 
-# pygame.mixer.music.set_volume(0.3)
-# pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1)
 
+def GameText(text):
+    for letter in (text):
+        rand = random.uniform(0.001, 0.15)
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(rand)
+    print("")
 
 #Functions
 def GameOver():
     for letter in (u"\u001b[31mGame Over\u001b[0m"):
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(0.1)
+    print("")
+
+def YouDied():
+    for letter in (u"\u001b[31mYou Died\u001b[0m"):
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(0.1)
@@ -39,10 +53,15 @@ def loading():
         time.sleep(0.05)
         sys.stdout.write(u"\u001b[1000D" + str(i + 1) + "%")
         sys.stdout.flush()
+
     
 def healthUpdate(damage):
     global health
     health = health + damage
+    GameText(u"\u001b[32mYour health is now "+  str(health)+ " HP\u001b[0m")
+    if health <= 0:
+        YouDied()
+        exit()
 
 def CareerUpdate(career):
     global careerP
@@ -51,33 +70,51 @@ def CareerUpdate(career):
         GameOver()
         exit()
 
-def YouDied():
-    for letter in (u"\u001b[31mYou Died\u001b[0m"):
-        sys.stdout.write(letter)
-        sys.stdout.flush()
-        time.sleep(0.1)
-    print("")
 
-def GameText(text):
-    for letter in (text):
-        rand = random.uniform(0.001, 0.15)
-        sys.stdout.write(letter)
-        sys.stdout.flush()
-        time.sleep(rand)
-    print("")
+
+
 
 def clear():
     time.sleep(0.5)
     os.system('clear')
 
-def get_hit(att, ac):
 
-    attack = random.randint(1, 20) + att
+def shop():
+    buy = ''
+    loopS = 1
+    global powerUP
+    powerUP = 0
+    while loopS == 1:
+        GameText(u"\u001b[35mShop\u001b[0m")
+        GameText(u"\u001b[33m1. Rewind 50HP\u001b[0m")
+        GameText(u"\u001b[24m2. Wrench 50HP\u001b[0m")
+        GameText(u"\u001b[36;1m3. Skip fase 1 99HP\u001b[0;0m")
+        GameText(u"\u001b[35m1, 2, 3 or exit:")
+        buy = input("\u001b[0m")
 
-    if attack > ac:
-        return True
-    else:
-        return False
+        if buy == "1":
+            GameText(u"\u001b[35mYou Now Have Rewind\u001b[0m")
+            GameText(u"\u001b[35mDescription: At the end of a scene you can choose if you want to restart the phase or not.\u001b[0m")
+            healthUpdate(-50)
+            powerUP = 1
+            time.sleep(2)
+            loopS = 2
+        elif buy == "2":
+            GameText(u"\u001b[35mYou Now Have Wrench\u001b[0m")
+            GameText(u"\u001b[35mDescription: In a copier battle if you use it you will get one extra copy giving you the advantage also any tiebreaker will go your way.\u001b[0m")
+            healthUpdate(-50)
+            powerUP = 2
+            time.sleep(2)
+            loopS = 2
+        elif buy == "3":
+            GameText(u"\u001b[35mSkip fase 1\u001b[0m")
+            GameText(u"\u001b[35mDescription: This will allow you to skip over the first part of the game if you are finding it too hard.\u001b[0m")
+            healthUpdate(-99)
+            powerUP = 3
+            time.sleep(2)
+            loopS = 2
+        elif buy == "exit":
+            loopS = 2
 
 def chalengerPBattle(ChallengerSpeed, copyTime):
     global ls
@@ -100,6 +137,14 @@ def Printerbattle(copyTime, ChallengerName, ChallengerSpeed):
     loopa = 1
     start = time.time()
     chalengerPBattle(ChallengerSpeed, copyTime)
+
+    if powerUP == 1:
+        GameText(u"\u001b[32mWould You like to use Your Wrench Y/N\u001b[0m")
+        ans = input("")
+        ans = ans.lower()
+        if ans == "y":
+            copyCount = copyCount + 1
+
     while loopa == 1:
         
         update = time.time()
@@ -129,53 +174,34 @@ def Printerbattle(copyTime, ChallengerName, ChallengerSpeed):
     lenLS = len(ls)
 
     if len(ls) == copyCount:
-        ran = random.randint(2, 5)
-        print(ran)
-        if ran == 3:
-            lenLS = lenLS - 1
-        elif ran == 4:
-            lenLS += 1
+        if ans == "y":
+            copyCount = copyCount + 1
+        else:
+            ran = random.randint(2, 5)
+            print(ran)
+            if ran == 3:
+                lenLS = lenLS - 1
+            elif ran == 4:
+                lenLS += 1
 
     
     time.sleep(3)
     print("")
+    global winner
     GameText(u"\u001b[35mThe Scores Are In\u001b[0m")
     GameText(u"\u001b[35m" + ChallengerName +" Made "+ str(lenLS) +" Copies\u001b[0m")
     GameText(u"\u001b[35mYou Made "+ str(copyCount) +" Copies\u001b[0m")
     if lenLS > copyCount:
+        winner = "challenger"
         GameText(u"\u001b[33m" + ChallengerName + " Wins\u001b[0m")
     if lenLS < copyCount:
+        winner = "you"
         GameText(u"\u001b[33mYou Win\u001b[0m")
 
 
 
 
-def shop():
-    global buy
-    buy = ''
-    loopS = 1
-    while loopS == 1:
-        GameText(u"\u001b[35mShop\u001b[0m")
-        GameText(u"\u001b[33m1. Rewind 50HP\u001b[0m")
-        GameText(u"\u001b[24m2. Wrench 50HP\u001b[0m")
-        GameText(u"\u001b[36;1m3. Skip faze 1 99HP\u001b[0;0m")
-        GameText(u"\u001b[35m1, 2, 3 or exit:")
-        buy = input("\u001b[0m")
 
-        if buy == "1":
-            GameText(u"\u001b[35mYou Now Have Rewind\u001b[0m")
-            loopS = 2
-        elif buy == "2":
-            GameText(u"\u001b[35mYou Now Have Wrench\u001b[0m")
-            loopS = 2
-        elif buy == "3":
-            GameText(u"\u001b[35mSkip faze 1\u001b[0m")
-            loopS = 2
-        elif buy == "4":
-            print("not yet implemented")
-            loopS = 2
-        elif buy == "exit":
-            loopS = 2
 
 # def powerups():
 #     if buy == "1":
@@ -207,7 +233,6 @@ def phase1():
     if ans == "punch":
         GameText(u"\u001b[32mYou get electrocuted\u001b[0m")
         healthUpdate(-50)
-        GameText(u"\u001b[32mYour health is now "+  str(health)+ " HP\u001b[0m")
         clear()
         GameText(u"\u001b[32mYou say 'Screw This!' and you go back to bed\u001b[0m")
         GameText(u"\u001b[32mYou wake up to the sound of your phone ringing\u001b[0m")
@@ -217,6 +242,16 @@ def phase1():
         GameText(u"\u001b[32mYour bosses sudden yelling has caused you to go into cardiac arrest\u001b[0m")
         GameText(u"\u001b[32mThen suddenly your heart stops.\u001b[0m")
         print("")
+        if powerUP == 1:
+            powerUP = 0
+            GameText(u"\u001b[32mWould You like to use Rewind Y/N\u001b[0m")
+            ans = input("")
+            if ans == "y":
+                GameText(u"\u001b[32mRewinding Please Wait\u001b[0m")
+                
+                loading()
+                clear()
+                phase1()
         YouDied()
     elif ans == "wake":
         rand = random.randrange(5, 9)
@@ -243,7 +278,7 @@ def phase1():
             if ans == "breakfast":
                 GameText(u"\u001b[32mYou eat breakfast and gain 20 health and you get to work on time\u001b[0m")
                 healthUpdate(20)
-                GameText(u"\u001b[32mYour health is now "+  str(health)+ " HP\u001b[0m")
+                
                 GameText(u"\u001b[32mYou grab your mop and start cleaning\u001b[0m")
                 GameText(u"\u001b[32mYou finish your work at 5:30 and you go home and flop onto your bed.\u001b[0m")
                 phase1()
@@ -251,10 +286,25 @@ def phase1():
                 GameText(u"\u001b[32mYou skip breakfast and go straight to work you are early by 10 minutes this makes a good impression on your boss and you he says\u001b[0m")
                 GameText(u"\u001b[32mI like to see a dedicated worker, have you ever done printer matnence before?\u001b[0m")
                 GameText(u"\u001b[32mYou respond with 'I am fairly handy and printers can't be too hard'\u001b[0m")
-                GameText(u"\u001b[32m'Then it's settled you are now part of the printer matnence crew.'\u001b[0m")
-                CareerUpdate(1)
-                GameText(u"\u001b[32mYou gain a career point you now have "+  str(careerP) + " points\u001b[0m")
-                phase2()
+                GameText(u"\u001b[32mOk then it's settled you will challenge josh in an hour for the job of printer matnence with a copier battle!\u001b[0m")
+                time.sleep(2)
+                GameText(u"\u001b[32mAn hour passes.\u001b[0m")
+                GameText(u"\u001b[32mYou are extremely nervous as you aproach the photo copier\u001b[0m")
+                GameText(u"\u001b[32mYour boss says 'You will need as many copies as posible by typing the word (copy) and pressing enter in 20 seconds\u001b[0m")
+                time.sleep(2)
+                GameText(u"\u001b[32mThe Game will start in 3 seconds\u001b[0m")
+                GameText(u"\u001b[32mThe Game will start in 2 seconds\u001b[0m")
+                GameText(u"\u001b[32mThe Game will start in 1 seconds\u001b[0m")
+                Printerbattle(20, "Josh", 2)
+                if winner == "you":
+                    GameText(u"\u001b[32mJosh looks down with a depressed look on his face and leaves the room\u001b[0m")
+                    GameText(u"\u001b[32mYou gain a career point you now have "+  str(careerP) + " points\u001b[0m")
+                    phase2()
+                if winner == "challenger":
+                    GameText(u"\u001b[32mJosh jumps and punches the air\u001b[0m")
+                    GameText(u"\u001b[32mYou walk home and go to bed.\u001b[0m")
+                    time.sleep()
+                    phase1()
 
 
 def phase2():
@@ -269,17 +319,42 @@ def phase2():
         GameText(u"\u001b[32mThe your boss says \u001b[0m")
     elif ans == "open":
         if health < 70:
+            GameText(u"\u001b[32mYou decided to wear thongs to work today and there was a lip on the door frame that you stub your toe on.\u001b[0m")
             healthUpdate(-50)
-            GameText(u"\u001b[32mYou decided to wear thongs to work today and there was a lip on the door frame that you stub your toe on. Your health is now"+ str(health) +"\u001b[0m")
-
-        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of matnence sits as you walk everyone is stareing at at you the new guy.\u001b[0m")
-    
-
+        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of printer matnence sits as you walk everyone is stareing at you the new guy.\u001b[0m")
+        GameText(u"\u001b[32mWhen you get to the desk he says\u001b[0m")
+        GameText(u"\u001b[32m'My name is James, heres the deal I already don't like you beause you replaced Josh now he has to work as a jaitor and his pay was halved'\u001b[0m")
+        GameText(u"\u001b[32mYou find his tone rude and unfair\u001b[0m")
+        GameText(u"\u001b[32mDo you (say) something or (leave it) alone.\u001b[0m")
+        ans = input("")
+        ans = ans.lower()
+        if ans == "say":
+            GameText(u"\u001b[32mJames stands up and says 'OH YEAH'\u001b[0m")
+            GameText(u"\u001b[32m'WANA GO MATE'(Y/N)\u001b[0m")
+            ans = input("")
+            ans = ans.lower()
+            if ans == "y":
+                GameText(u"\u001b[32mYou respond with 'HEll YES'\u001b[0m")
+                GameText(u"\u001b[32mJames then winds up and punches you in the face and you fall to the ground and pass out.\u001b[0m")
+                healthUpdate(-70)
+                GameText(u"\u001b[32mWhen your are passed out on the ground your boss deides to demoe you back to janitor.\u001b[0m")
+                time.sleep(2)
+                GameText(u"\u001b[32mYour trudge home and go to bed.\u001b[0m")
+                time.sleep(2)
+                phase1()
+            elif ans == "n":
+                GameText(u"\u001b[32mYou say 'I don't want any trouble sorry.'\u001b[0m")
+        elif ans == "leave it":
+            GameText(u"\u001b[32mJames says 'I saw a job open up '\u001b[0m")
+        
     print("phase 2")
 # rand = random.randrange(6, 8,)
 # print(rand)
 # shop()
 # phase1()
+time.sleep(2)
+pygame.mixer.music.stop()
+musicBattle.play(-1)
 Printerbattle(10, "asd", 3)
 # H2P()
 
