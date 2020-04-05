@@ -1,12 +1,34 @@
 import time, sys, pygame, random, os
 from pygame import mixer
 
-powerUP = 0
-
 # Variables
 phaseCount = 0
 health = 100
 careerP = 1
+
+FlexyPath = os.path.dirname(os.path.abspath(__file__))
+
+f=open(FlexyPath + "/data.txt", "r")
+contents = f.read()
+f.close()
+print(contents)
+contents = contents.split()
+print(contents)
+if contents != []:
+    phaseCount = contents[0]
+    health = contents[1]
+else:
+    f = open(FlexyPath + '/data.txt','w')
+    f.write("0 100")
+
+powerUP = 0
+
+f = open(FlexyPath + '/data.txt','w')
+f.write(str(phaseCount)+ " " + str(health))
+
+# contents = f.read()
+# print(contents)
+
 FlexyPath = os.path.dirname(os.path.abspath(__file__))
 # Music/Sound Effects
 
@@ -88,7 +110,7 @@ def shop():
         GameText(u"\u001b[35mShop\u001b[0m")
         GameText(u"\u001b[33m1. Rewind 50HP\u001b[0m")
         GameText(u"\u001b[24m2. Wrench 50HP\u001b[0m")
-        GameText(u"\u001b[36;1m3. Skip fase 1 99HP\u001b[0;0m")
+        GameText(u"\u001b[36;1m3. Skip phase 1 99HP\u001b[0;0m")
         GameText(u"\u001b[35m1, 2, 3 or exit:")
         buy = input("\u001b[0m")
 
@@ -107,7 +129,7 @@ def shop():
             time.sleep(2)
             loopS = 2
         elif buy == "3":
-            GameText(u"\u001b[35mSkip fase 1\u001b[0m")
+            GameText(u"\u001b[35mSkip phase 1\u001b[0m")
             GameText(u"\u001b[35mDescription: This will allow you to skip over the first part of the game if you are finding it too hard.\u001b[0m")
             healthUpdate(-99)
             powerUP = 3
@@ -237,7 +259,7 @@ def phase1():
         GameText(u"\u001b[32mYou say 'Screw This!' and you go back to bed\u001b[0m")
         GameText(u"\u001b[32mYou wake up to the sound of your phone ringing\u001b[0m")
         GameText(u"\u001b[32mYou pick up the phone it's your boss it's your fourth time you have forgotten to come into work your boss says...\u001b[0m")
-        GameText(u"\u001b[32mDAVE YOU ARE SUCH AN IDOT DON'T COME INTO XEROX EVER AGAIN\u001b[0m")
+        GameText(u"\u001b[32mDAVE YOU ARE SUCH AN IDIOT DON'T COME INTO XEROX EVER AGAIN\u001b[0m")
         GameText(u"\u001b[32mThen suddenly you feel a strong pain coming from your chest the electricity has caused your heart beat to become irregular.\u001b[0m")
         GameText(u"\u001b[32mYour bosses sudden yelling has caused you to go into cardiac arrest\u001b[0m")
         GameText(u"\u001b[32mThen suddenly your heart stops.\u001b[0m")
@@ -284,17 +306,21 @@ def phase1():
                 phase1()
             elif ans == "leave":
                 GameText(u"\u001b[32mYou skip breakfast and go straight to work you are early by 10 minutes this makes a good impression on your boss and you he says\u001b[0m")
-                GameText(u"\u001b[32mI like to see a dedicated worker, have you ever done printer matnence before?\u001b[0m")
+                GameText(u"\u001b[32mI like to see a dedicated worker, have you ever done printer maintenance before?\u001b[0m")
                 GameText(u"\u001b[32mYou respond with 'I am fairly handy and printers can't be too hard'\u001b[0m")
-                GameText(u"\u001b[32mOk then it's settled you will challenge josh in an hour for the job of printer matnence with a copier battle!\u001b[0m")
+                GameText(u"\u001b[32mOk then it's settled you will challenge josh in an hour for the job of printer maintenance with a copier battle!\u001b[0m")
                 time.sleep(2)
                 GameText(u"\u001b[32mAn hour passes.\u001b[0m")
-                GameText(u"\u001b[32mYou are extremely nervous as you aproach the photo copier\u001b[0m")
-                GameText(u"\u001b[32mYour boss says 'You will need as many copies as posible by typing the word (copy) and pressing enter in 20 seconds\u001b[0m")
+                GameText(u"\u001b[32mYou are extremely nervous as you approach the photo copier\u001b[0m")
+                GameText(u"\u001b[32mYour boss says 'You will need as many copies as possible by typing the word (copy) and pressing enter in 20 seconds\u001b[0m")
                 time.sleep(2)
+                clear()
                 GameText(u"\u001b[32mThe Game will start in 3 seconds\u001b[0m")
+                clear()
                 GameText(u"\u001b[32mThe Game will start in 2 seconds\u001b[0m")
+                clear()
                 GameText(u"\u001b[32mThe Game will start in 1 seconds\u001b[0m")
+                clear()
                 Printerbattle(20, "Josh", 2)
                 if winner == "you":
                     GameText(u"\u001b[32mJosh looks down with a depressed look on his face and leaves the room\u001b[0m")
@@ -310,20 +336,20 @@ def phase1():
 def phase2():
     phaseCount = 2
     GameText(u"\u001b[32mYour spirits are high and you are happy\u001b[0m")
-    GameText(u"\u001b[32mYour boss leads you to the printer matnence door and says 'I will leave you here the guys inside will tell you what you need to do.'\u001b[0m")
-    GameText(u"\u001b[32mYou have a choice to (lumber up) before opening the door or you can just (open) the door\u001b[0m")
+    GameText(u"\u001b[32mYour boss leads you to the printer maintenance door and says 'I will leave you here the guys inside will tell you what you need to do.'\u001b[0m")
+    GameText(u"\u001b[32mYou have a choice to (limber up) before opening the door or you can just (open) the door\u001b[0m")
     ans = input("")
     ans = ans.lower()
-    if ans == "lumber up":
-        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of matnence sits as you walk everyone is stareing at at you the new guy.\u001b[0m")
+    if ans == "limber up":
+        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of maintenance sits as you walk everyone is stareing at at you the new guy.\u001b[0m")
         GameText(u"\u001b[32mThe your boss says \u001b[0m")
     elif ans == "open":
         if health < 70:
             GameText(u"\u001b[32mYou decided to wear thongs to work today and there was a lip on the door frame that you stub your toe on.\u001b[0m")
             healthUpdate(-50)
-        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of printer matnence sits as you walk everyone is stareing at you the new guy.\u001b[0m")
+        GameText(u"\u001b[32mYou enter the room and you walk towards the desk where the head of printer maintenance sits as you walk everyone is stareing at you the new guy.\u001b[0m")
         GameText(u"\u001b[32mWhen you get to the desk he says\u001b[0m")
-        GameText(u"\u001b[32m'My name is James, heres the deal I already don't like you beause you replaced Josh now he has to work as a jaitor and his pay was halved'\u001b[0m")
+        GameText(u"\u001b[32m'My name is James, heres the deal I already don't like you because you replaced Josh now he has to work as a jaitor and his pay was halved'\u001b[0m")
         GameText(u"\u001b[32mYou find his tone rude and unfair\u001b[0m")
         GameText(u"\u001b[32mDo you (say) something or (leave it) alone.\u001b[0m")
         ans = input("")
@@ -337,7 +363,7 @@ def phase2():
                 GameText(u"\u001b[32mYou respond with 'HEll YES'\u001b[0m")
                 GameText(u"\u001b[32mJames then winds up and punches you in the face and you fall to the ground and pass out.\u001b[0m")
                 healthUpdate(-70)
-                GameText(u"\u001b[32mWhen your are passed out on the ground your boss deides to demoe you back to janitor.\u001b[0m")
+                GameText(u"\u001b[32mWhen your are passed out on the ground your boss deides to demote you back to janitor.\u001b[0m")
                 time.sleep(2)
                 GameText(u"\u001b[32mYour trudge home and go to bed.\u001b[0m")
                 time.sleep(2)
@@ -345,17 +371,66 @@ def phase2():
             elif ans == "n":
                 GameText(u"\u001b[32mYou say 'I don't want any trouble sorry.'\u001b[0m")
         elif ans == "leave it":
-            GameText(u"\u001b[32mJames says 'I saw a job open up '\u001b[0m")
-        
-    print("phase 2")
+            GameText(u"\u001b[32mJames then says follow me you walk over to a printer. James says that this is one of their most used matchines and runs you through some troubleshooting routines and how to use it.\u001b[0m")
+            GameText(u"\u001b[32mThis guy continues to be condesending so you decide to do something but this time you go over his head.\u001b[0m")
+            GameText(u"\u001b[32mYou go to the CEO of Xerox John Visentin.\u001b[0m")
+            GameText(u"\u001b[32mYou have a choice to (walk) to his office or to (call) John Visentin.\u001b[0m")
+            ans = input("")
+            ans = ans.lower()
+            if ans == "call":
+                GameText(u"\u001b[32mYou don't have his phone number you're that important....\u001b[0m")
+            elif ans == "walk":
+                GameText(u"\u001b[32mYou leave the room and realise that Xerox is a huge company with a huge building and there are no signs the entire building is like a grid.\u001b[0m")
+                GameText(u"\u001b[32mWould You like to go (forward) (left) or (right)\u001b[0m")
+                ans = input("")
+                ans = ans.lower()                
+                if ans == "right":
+                    GameText(u"\u001b[32mWould You like to go (forward) (left) or (right)\u001b[0m")
+                    ans = input("")
+                    ans = ans.lower()
+                    if ans == "left":
+                        GameText(u"\u001b[32mWould You like to go (forward) (left) or (right)\u001b[0m")
+                        ans = input("")
+                        ans = ans.lower()
+                        if ans == "forward":
+                            pygame.mixer.music.stop()
+                            musicBossBattle.play()
+                            GameText(u"\u001b[32mYou finally make it to the CEO's office you fling the door open say 'John I have had it with with head of printer matenance and would like to be moved to a knew branch of Xerox'\u001b[0m")
+                            GameText(u"\u001b[32mJohn Visentin swivels around in his executives chair and says 'You know what why don't copier battle me if you think you are so great!'\u001b[0m")
+                            GameText(u"\u001b[32mYou can here gasps coming from the hallway and people running into the room.'\u001b[0m")
+                            GameText(u"\u001b[32mYou start to shake you have never been under more pressure in your life\u001b[0m")
+                            GameText(u"\u001b[32mYou respond with 'So John what are the stakes'\u001b[0m")
+                            GameText(u"\u001b[32mJohn says with 'If you win you take my job if I win you are fired on the spot'\u001b[0m")
+                            GameText(u"\u001b[32mYou then say 'OK DEAL'\u001b[0m")
+                            time.sleep(2)
+                            clear()
+                            GameText(u"\u001b[32mThe Game will start in 3 seconds\u001b[0m")
+                            clear()
+                            GameText(u"\u001b[32mThe Game will start in 2 seconds\u001b[0m")
+                            clear()
+                            GameText(u"\u001b[32mThe Game will start in 1 seconds\u001b[0m")
+                            clear()
+
+                        else:
+                            GameText(u"\u001b[32mYou walk into a wall and loose 1HP\u001b[0m")
+                            healthUpdate(-1)
+                    else:
+                        GameText(u"\u001b[32mYou walk into a wall and loose 1HP\u001b[0m")
+                        healthUpdate(-1)
+                else:
+                    GameText(u"\u001b[32mYou walk into a wall and loose 1HP\u001b[0m")
+                    healthUpdate(-1)
+                
+
+
 # rand = random.randrange(6, 8,)
-# print(rand)
-# shop()
-# phase1()
-time.sleep(2)
-pygame.mixer.music.stop()
-musicBattle.play(-1)
-Printerbattle(10, "asd", 3)
-# H2P()
+# # print(rand)
+# # shop()
+# # phase1()
+# time.sleep(2)
+# pygame.mixer.music.stop()
+# musicBattle.play(-1)
+# Printerbattle(10, "asd", 3)
+# # H2P()
 
 
