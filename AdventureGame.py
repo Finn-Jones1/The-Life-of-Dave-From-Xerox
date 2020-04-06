@@ -61,13 +61,23 @@ def GameOver():
         sys.stdout.flush()
         time.sleep(0.1)
     print("")
-
+    f = open(FlexyPath + '/data.txt','w')
+    f.write("0 100")
+    exit()
 def YouDied():
     for letter in (u"\u001b[31mYou Died\u001b[0m"):
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(0.1)
     print("")
+    f = open(FlexyPath + '/data.txt','w')
+    f.write("0 100")
+    exit()
+
+def save():
+    print(phaseCount)
+    f = open(FlexyPath + '/data.txt','w')
+    f.write(str(phaseCount)+ " " + str(health))
 
 def loading():
     print ("Loading...")
@@ -97,7 +107,6 @@ def CareerUpdate(career):
 
 
 def clear():
-    time.sleep(0.5)
     os.system('clear')
 
 
@@ -243,11 +252,13 @@ def H2P():
     
 
 def phase1():
+    phaseCount = 1
+    save()
     alarm.play()
     GameText(u"\u001b[32mYou wake up to the sound you have grown to hate\u001b[0m")
     GameText(u"\u001b[32mThe alarm clock\u001b[0m")
     clear()
-    phaseCount = 1
+    
     GameText(u"\u001b[32mDo you (Punch) the alarm clock or do you (Wake) up:\u001b[0m")
     ans = input()
     ans = ans.lower()
@@ -321,7 +332,7 @@ def phase1():
                 clear()
                 GameText(u"\u001b[32mThe Game will start in 1 seconds\u001b[0m")
                 clear()
-                Printerbattle(20, "Josh", 2)
+                Printerbattle(20, "Josh", 3)
                 if winner == "you":
                     GameText(u"\u001b[32mJosh looks down with a depressed look on his face and leaves the room\u001b[0m")
                     GameText(u"\u001b[32mYou gain a career point you now have "+  str(careerP) + " points\u001b[0m")
@@ -335,6 +346,7 @@ def phase1():
 
 def phase2():
     phaseCount = 2
+    save()
     GameText(u"\u001b[32mYour spirits are high and you are happy\u001b[0m")
     GameText(u"\u001b[32mYour boss leads you to the printer maintenance door and says 'I will leave you here the guys inside will tell you what you need to do.'\u001b[0m")
     GameText(u"\u001b[32mYou have a choice to (limber up) before opening the door or you can just (open) the door\u001b[0m")
@@ -405,12 +417,28 @@ def phase2():
                             time.sleep(2)
                             clear()
                             GameText(u"\u001b[32mThe Game will start in 3 seconds\u001b[0m")
+                            time.sleep(1)
                             clear()
                             GameText(u"\u001b[32mThe Game will start in 2 seconds\u001b[0m")
+                            time.sleep(1)
                             clear()
                             GameText(u"\u001b[32mThe Game will start in 1 seconds\u001b[0m")
+                            time.sleep(1)
                             clear()
-
+                            Printerbattle(40, "John Visetin", 2)
+                            if winner == "you":
+                                GameText(u"\u001b[32mJohn Falls down no his knees you see a tear role down his cheek\u001b[0m")
+                                GameText(u"\u001b[32mYou call the guards into the room and say 'Take him away we have no room for loosers here at Xerox'\u001b[0m")
+                                GameText(u"\u001b[32m...\u001b[0m")
+                                GameText(u"\u001b[32mThe End\u001b[0m")
+                                GameText(u"\u001b[32mThis game was made by Finn Jones\u001b[0m")
+                                GameText(u"\u001b[32mThanks For Playing\u001b[0m")
+                                exit()
+                            elif winner == "challenger":
+                                GameText(u"\u001b[32mJohn Visetin starts to walk towards you and says 'GAME OVER'\u001b[0m")
+                                GameText(u"\u001b[32mHe then says 'Guards Escort this man out of the building please'\u001b[0m")
+                                GameText(u"\u001b[32mThe guards grab your arms and you slowly start to get dragged out of the building\u001b[0m")
+                                GameOver()
                         else:
                             GameText(u"\u001b[32mYou walk into a wall and loose 1HP\u001b[0m")
                             healthUpdate(-1)
@@ -432,5 +460,13 @@ def phase2():
 # musicBattle.play(-1)
 # Printerbattle(10, "asd", 3)
 # # H2P()
+# Printerbattle(60, "John Visetin", 1.5)
 
 
+phase1()
+# if phaseCount == 1:
+#     H2P()
+# elif phaseCount == 0:
+#     phase1()
+# elif phaseCount == 2:
+#     phase2()
