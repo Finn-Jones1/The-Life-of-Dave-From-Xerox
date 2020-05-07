@@ -521,6 +521,7 @@ def phase2():
 if lphaseCount == 0 or lphaseCount == "0":
     H2P()
     shop()
+    phase1()
 elif lphaseCount == 1 or lphaseCount == "1":
     shop()
     phase1()
